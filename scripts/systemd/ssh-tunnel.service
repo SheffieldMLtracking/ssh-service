@@ -1,6 +1,9 @@
 # SSH tunnel service
 # This file is a systemd unit that defines the service.
 
+# Fedora systemd documentation
+# https://fedoraproject.org/wiki/Packaging:Systemd
+
 # See: systemd.service
 # https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html
 
@@ -19,15 +22,19 @@ EnvironmentFile=/etc/ssh-tunnel/.env
 # Configuation options:
 # https://manpages.debian.org/stretch/openssh-client/ssh_config.5.en.html
 # Option descriptions:
-#  -N: do not execute a remote command
-#  -R: tunnel port forwarding (bind remote to local ports)
+#  -i: Private key file path
+#  -N: Do not execute a remote command
+#  -T: Disable pseudo-terminal allocation.
+#  -R: Reverse tunnel port forwarding (bind remote to local ports)
 #  -o ServerAliveInterval: Every 20 seconds, check the connection remains alive
 #  -o ServerAliveCountMax: If the server doesn't respond after 3 attempts, fail
 #  -o ExitOnForwardFailure: Fail if tunnel couldn't be created
-ExecStart=/usr/bin/ssh $DESTINATION -R $BIND_PORT:localhost:22 -N -o "ServerAliveInterval 20" -o "ServerAliveCountMax 3" -o "ExitOnForwardFailure yes"
+ExecStart=/usr/bin/ssh ${DESTINATION} -i ${IDENTITY_FILE} -R ${BIND_PORT}:localhost:22 -NT -o ServerAliveInterval=20 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes
 Restart=always
 # On failure, wait 5 seconds before restarting
 RestartSec=5
+# Send a SIGTERM signal to the main process
+KillMode=mixed
 
 [Install]
 # Run this on system start-up

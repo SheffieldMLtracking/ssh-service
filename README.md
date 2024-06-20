@@ -25,17 +25,24 @@ from="132.235.0.0/16",command="/bin/true" ssh-rsa AAAAB3Nza...cDR5yDhRte2SWk=
 
 ## On the client
 
+If we trust the server and know its fingerprint is correct, we can add its SSH key fingerprint to our known_hosts file
+using [ssh-keyscan](https://manpages.debian.org/bookworm/openssh-client/ssh-keyscan.1.en.html).
+
 ```bash
 # Get SSH key fingerprint
-ssh-keyscan TODO
+ssh-keyscan -H 54.237.238.250 >> ~/.ssh/known_hosts
 
 # Install systemd units
-cp --verbose scripts/systemd/* /etc/systemd/system
+cp --recursive --verbose scripts/systemd/* /etc/systemd/system
 systemctl daemon-reload
 
 # Activate the service
 systemctl enable ssh-tunnel.service
 ```
+
+### Configuration
+
+Edit the environment variables in `/etc/systemd/system/ssh-tunnel.service.d/my_config.conf`
 
 # Usage
 
