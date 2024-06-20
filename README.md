@@ -1,6 +1,6 @@
 # Bee tracker SSH tunnel service
 
-This repository contains [systemd](https://systemd.io/) units that define  a service to make a Raspberry Pi 4/5 maintain a permanent SSH
+This repository contains [systemd](https://systemd.io/) units that define a service to maintain a permanent SSH
 reverse tunnel.
 
 # Installation
