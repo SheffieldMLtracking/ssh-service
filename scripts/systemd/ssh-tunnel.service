@@ -1,0 +1,18 @@
+# SSH tunnel service
+# This file is a systemd unit that defines the service.
+#
+# See: systemd.service
+# https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html
+
+[Unit]
+Description=SSH reverse tunnel service
+# Launch when networking is ready
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/ssh-tunnel/.env
+ExecStart=/usr/bin/ssh
+
+[Install]
+# Run this on system start-up
+WantedBy=multi-user.target
