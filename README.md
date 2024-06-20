@@ -5,6 +5,8 @@ reverse tunnel.
 
 # Installation
 
+To set up the service, please follow the following steps on the local machine and remote host.
+
 ## On the server
 
 You must list the public key in the [`authorized_keys`](https://www.ssh.com/academy/ssh/authorized-keys-file) file on
@@ -42,7 +44,8 @@ systemctl enable ssh-tunnel.service
 
 ### Configuration
 
-Edit the environment variables in `/etc/systemd/system/ssh-tunnel.service.d/my_config.conf`
+Edit the environment variables in the systemd override configuration files
+located at `/etc/systemd/system/ssh-tunnel.service.d/*.conf`
 
 # Usage
 
