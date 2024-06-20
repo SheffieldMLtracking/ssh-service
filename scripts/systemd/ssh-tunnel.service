@@ -1,17 +1,33 @@
 # SSH tunnel service
 # This file is a systemd unit that defines the service.
-#
+
 # See: systemd.service
 # https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html
 
 [Unit]
 Description=SSH reverse tunnel service
 # Launch when networking is ready
-After=network.target
+After=network-online.target
 
 [Service]
+Type=simple
+User=pi
+Group=pi
 EnvironmentFile=/etc/ssh-tunnel/.env
-ExecStart=/usr/bin/ssh
+# SSH client:
+# https://manpages.debian.org/testing/openssh-client/ssh.1.en.html
+# Configuation options:
+# https://manpages.debian.org/stretch/openssh-client/ssh_config.5.en.html
+# Option descriptions:
+#  -N: do not execute a remote command
+#  -R: tunnel port forwarding (bind remote to local ports)
+#  -o ServerAliveInterval: Every 20 seconds, check the connection remains alive
+#  -o ServerAliveCountMax: If the server doesn't respond after 3 attempts, fail
+#  -o ExitOnForwardFailure: Fail if tunnel couldn't be created
+ExecStart=/usr/bin/ssh $DESTINATION -R $BIND_PORT:localhost:22 -N -o "ServerAliveInterval 20" -o "ServerAliveCountMax 3" -o "ExitOnForwardFailure yes"
+Restart=always
+# On failure, wait 5 seconds before restarting
+RestartSec=5
 
 [Install]
 # Run this on system start-up
