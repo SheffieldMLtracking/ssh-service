@@ -32,7 +32,8 @@ using [ssh-keyscan](https://manpages.debian.org/bookworm/openssh-client/ssh-keys
 
 ```bash
 # Get SSH key fingerprint
-ssh-keyscan -H 54.237.238.250 >> ~/.ssh/known_hosts
+remote_host="TODO"
+ssh-keyscan -H $remote_host >> ~/.ssh/known_hosts
 
 # Install systemd units
 cp --recursive --verbose scripts/systemd/* /etc/systemd/system
@@ -60,6 +61,12 @@ systemctl stop ssh-tunnel.service
 ```
 
 ## Monitoring
+
+To view the service status, use `systemctl` like so:
+
+```bash
+systemctl status ssh-tunnel
+```
 
 To view the logs, use [journalctl](https://www.freedesktop.org/software/systemd/man/latest/journalctl.html).
 

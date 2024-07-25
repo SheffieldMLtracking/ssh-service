@@ -16,7 +16,6 @@ After=network-online.target
 Type=simple
 User=pi
 Group=pi
-EnvironmentFile=/etc/ssh-tunnel/.env
 # SSH client:
 # https://manpages.debian.org/testing/openssh-client/ssh.1.en.html
 # Configuation options:
