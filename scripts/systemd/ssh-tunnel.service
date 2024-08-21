@@ -20,15 +20,20 @@ Group=pi
 # https://manpages.debian.org/testing/openssh-client/ssh.1.en.html
 # Configuation options:
 # https://manpages.debian.org/stretch/openssh-client/ssh_config.5.en.html
+# They important command is '-R $bind_port:localhost:$remote_port'
+# This tells the SSH server on the remote host to forward traffic from the specified $bind_port
+# on the remote host to the specified $remote_port on your local machine (localhost). This allows
+# you to access services running on your local machine from the remote host.
+# These options help to keep the SSH tunnel connected in the event of network problems.
 # Option descriptions:
 #  -i: Private key file path
 #  -N: Do not execute a remote command
 #  -T: Disable pseudo-terminal allocation.
 #  -R: Reverse tunnel port forwarding (bind remote to local ports)
-#  -o ServerAliveInterval: Every 20 seconds, check the connection remains alive
-#  -o ServerAliveCountMax: If the server doesn't respond after 3 attempts, fail
+#  -o ServerAliveInterval: Every x seconds, check the connection remains alive
+#  -o ServerAliveCountMax: If the server doesn't respond after x attempts, fail
 #  -o ExitOnForwardFailure: Fail if tunnel couldn't be created
-ExecStart=/usr/bin/ssh ${DESTINATION} -i ${IDENTITY_FILE} -R ${BIND_PORT}:localhost:22 -NT -o ServerAliveInterval=20 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes
+ExecStart=/usr/bin/ssh ${DESTINATION} -i ${IDENTITY_FILE} -R ${BIND_PORT}:localhost:22 -NT -o ServerAliveInterval=30 -o ServerAliveCountMax=5 -o ExitOnForwardFailure=yes
 Restart=always
 # On failure, wait 5 seconds before restarting
 RestartSec=5

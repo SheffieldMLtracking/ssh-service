@@ -27,13 +27,13 @@ from="132.235.0.0/16",command="/bin/true" ssh-rsa AAAAB3Nza...cDR5yDhRte2SWk=
 
 ## On the client
 
-If we trust the server and know its fingerprint is correct, we can add its SSH key fingerprint to our known_hosts file
+If we trust the server and know its fingerprint is correct, we can add its SSH key fingerprint to our [`known_hosts` file](https://www.ssh.com/academy/ssh/host-key#known-host-keys)
 using [ssh-keyscan](https://manpages.debian.org/bookworm/openssh-client/ssh-keyscan.1.en.html).
 
 ```bash
 # Get SSH key fingerprint
-remote_host="TODO"
-ssh-keyscan -H $remote_host >> ~/.ssh/known_hosts
+destination="iot.bugtrack.org.uk"
+ssh-keyscan -H $destination >> ~/.ssh/known_hosts
 
 # Install systemd units
 cp --recursive --verbose scripts/systemd/* /etc/systemd/system
